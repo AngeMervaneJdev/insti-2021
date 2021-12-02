@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.NavigatorActivity">
+    tools:context="io.artcreativity.monpremierprojetange.activities.NavigatorActivity">
     <fragment
         android:id="@+id/navigator_graph"
         android:name="androidx.navigation.fragment.NavHostFragment"

@@ -55,22 +55,28 @@ public class ProductWebService {
 
 
 
-    public String deleteProduct(Product product){
+    public void deleteProduct(Product product){
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(baseUrl+'/'+product.serverId).delete().build();
 
         try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
+            response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return null;
     }
 
     public String updateProduct(Product product){
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(baseUrl+'/'+product.serverId).delete().build();
+
+        String uri = this.baseUrl + product.serverId;
+
+
+
+        Request request = new Request.Builder().put(uri)
+                .setEntity(gson.toJson(product))
+                .build();
 
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
@@ -80,6 +86,8 @@ public class ProductWebService {
 
         return null;
     }
+
+
 
 
 }

@@ -120,6 +120,8 @@ public class MainActivity extends AppCompatActivity{
 
             if (myProduct!=null){
                 product.id=myProduct.id;
+                ProductWebService service=new ProductWebService();
+                service.updateProduct(product);
                 intent.putExtra("MY_ED_PROD",product);
                 new Thread(new Runnable() {
                     @Override

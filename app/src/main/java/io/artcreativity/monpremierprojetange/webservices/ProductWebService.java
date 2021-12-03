@@ -1,5 +1,7 @@
 package io.artcreativity.monpremierprojetange.webservices;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -28,7 +30,7 @@ public class ProductWebService {
                 .url(baseUrl)
                 .post(body)
                 .build();
-
+        Log.d("TAG", "createProduct: "+request);
         try (Response response = httpClient.newCall(request).execute()) {
             return gson.fromJson(response.body().string(), Product.class);
         } catch (IOException e) {
@@ -67,26 +69,22 @@ public class ProductWebService {
 
     }
 
-    public String updateProduct(Product product){
-        OkHttpClient client = new OkHttpClient();
-
-        String uri = this.baseUrl + product.serverId;
-
-
-
-        Request request = new Request.Builder().put(uri)
-                .setEntity(gson.toJson(product))
+    public Product updateProduct(Product product) {
+        RequestBody body = RequestBody.create(gson.toJson(product),
+                MediaType.get("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(baseUrl+"/"+product.serverId)
+                .put(body)
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
+        try (Response response = httpClient.newCall(request).execute()) {
+            return gson.fromJson(response.body().string(), Product.class);
         } catch (IOException e) {
             e.printStackTrace();
+
+            return null;
         }
-
-        return null;
     }
-
 
 
 
